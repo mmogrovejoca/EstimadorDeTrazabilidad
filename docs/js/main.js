@@ -55,17 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
             },
 
             createGanttChart: (calculatedEndDate) => {
-                const tasks = [
-                    {
-                        id: '1',
-                        name: 'Desarrollo',
-                        start: model.startDate.toISOString().split('T')[0],
-                        end: calculatedEndDate.toISOString().split('T')[0],
-                        progress: 0,
-                    }
-                ];
-
-                new Gantt("#gantt-chart", tasks);
+                gantt.init("gantt-chart");
+                gantt.parse({
+                    data: [
+                        {
+                            id: 1,
+                            text: "Desarrollo",
+                            start_date: model.startDate.toISOString().split('T')[0],
+                            end_date: calculatedEndDate.toISOString().split('T')[0],
+                            progress: 0,
+                            open: true
+                        }
+                    ]
+                });
             }
         };
 

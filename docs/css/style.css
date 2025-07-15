@@ -76,4 +76,28 @@ button:hover {
 
 #gantt-chart {
     margin-top: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.gantt-controls {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.gantt-controls button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #4a69bd;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.gantt-controls button:hover {
+    background-color: #3b5998;
 }

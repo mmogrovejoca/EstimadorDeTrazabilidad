@@ -4,8 +4,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estimador de Tiempos de Trazabilidad</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --background-color: #f5f6fa;
+            --text-color: #3d3d3d;
+            --white-color: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--white-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: var(--white-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        #result-container {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            border: 1px solid #e0e0e0;
+        }
+
+        #result-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        #result-container p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        #result-container span {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .gantt-controls {
+            text-align: right;
+        }
+
+        .gantt-controls button {
+            width: auto;
+            padding: 0.8rem 1.5rem;
+            margin-top: 1rem;
+            margin-left: 1rem;
+            font-size: 1rem;
+        }
+
+        .gantt_container {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -56,6 +184,94 @@
     </div>
     <script src="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
     <script src="https://export.dhtmlx.com/gantt/api.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('estimation-form');
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const model = {
+                    scriptCount: parseInt(document.getElementById('script-count').value),
+                    minLines: parseInt(document.getElementById('min-lines').value),
+                    maxLines: parseInt(document.getElementById('max-lines').value),
+                    person1Avg: parseInt(document.getElementById('person1-avg').value),
+                    person2Avg: parseInt(document.getElementById('person2-avg').value) || 0,
+                    startDate: new Date(document.getElementById('start-date').value),
+                    dueDate: new Date(document.getElementById('due-date').value)
+                };
+
+                const controller = {
+                    calculateAverageLines: () => (model.minLines + model.maxLines) / 2,
+
+                    calculateTotalLines: () => controller.calculateAverageLines() * model.scriptCount,
+
+                    calculateCombinedDailyRate: () => model.person1Avg + model.person2Avg,
+
+                    calculateDaysRequired: () => {
+                        const totalLines = controller.calculateTotalLines();
+                        const combinedRate = controller.calculateCombinedDailyRate();
+                        return Math.ceil(totalLines / combinedRate);
+                    },
+
+                    calculateEndDate: () => {
+                        let endDate = new Date(model.startDate.getTime());
+                        let days = controller.calculateDaysRequired();
+                        let addedDays = 0;
+                        while (addedDays < days) {
+                            endDate.setDate(endDate.getDate() + 1);
+                            if (endDate.getDay() !== 0 && endDate.getDay() !== 6) {
+                                addedDays++;
+                            }
+                        }
+                        return endDate;
+                    },
+
+                    validateDueDate: (calculatedEndDate) => model.dueDate >= calculatedEndDate,
+
+                    updateView: () => {
+                        const calculatedEndDate = controller.calculateEndDate();
+                        const validation = controller.validateDueDate(calculatedEndDate);
+
+                        document.getElementById('estimation-date').textContent = new Date().toLocaleDateString();
+                        document.getElementById('calculated-due-date').textContent = calculatedEndDate.toLocaleDateString();
+                        document.getElementById('recommended-due-date').textContent = calculatedEndDate.toLocaleDateString();
+                        document.getElementById('due-date-validation').textContent = validation ? 'La fecha es adecuada' : 'La fecha no es adecuada';
+
+                        controller.createGanttChart(calculatedEndDate);
+                    },
+
+                    createGanttChart: (calculatedEndDate) => {
+                        gantt.config.scale_unit = "day";
+                        gantt.config.date_scale = "%d %M";
+                        gantt.init("gantt-chart");
+
+                        const tasks = [];
+                        let currentDate = new Date(model.startDate.getTime());
+                        const daysRequired = controller.calculateDaysRequired();
+
+                        for (let i = 0; i < daysRequired; i++) {
+                            tasks.push({
+                                id: i + 1,
+                                text: `Día ${i + 1}`,
+                                start_date: new Date(currentDate),
+                                duration: 1,
+                                progress: 1
+                            });
+
+                            currentDate.setDate(currentDate.getDate() + 1);
+                            while (currentDate.getDay() === 0 || currentDate.getDay() === 6) {
+                                currentDate.setDate(currentDate.getDate() + 1);
+                            }
+                        }
+
+                        gantt.parse({ data: tasks });
+                    }
+                };
+
+                controller.updateView();
+            });
+        });
+    </script>
 </body>
 </html>

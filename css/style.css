@@ -1,60 +1,100 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #4a69bd;
+    --secondary-color: #f4f7f6;
+    --text-color: #333;
+    --bg-color: #fff;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f7f6;
-    color: #333;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
     margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
 }
 
 .container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-h1 {
-    text-align: center;
-    color: #4a69bd;
-    margin-bottom: 20px;
+header {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    padding: 20px 0;
+    box-shadow: var(--shadow);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-placeholder {
+    width: 150px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.form-container, .result-container {
+    background-color: var(--bg-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.form-container:hover, .result-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-weight: 600;
 }
 
 .form-group input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 
 button {
     width: 100%;
-    padding: 12px;
-    background-color: #4a69bd;
-    color: #fff;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: var(--bg-color);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     transition: background-color 0.3s;
 }
 
@@ -62,22 +102,17 @@ button:hover {
     background-color: #3b5998;
 }
 
-#result-container {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
+.result-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
 }
 
-#result-container h2 {
-    color: #4a69bd;
-    margin-bottom: 15px;
-}
-
-#gantt-chart {
+.gantt-container {
+    height: 400px;
     margin-top: 20px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    overflow: hidden;
 }
 
 .gantt-controls {
@@ -86,18 +121,7 @@ button:hover {
 }
 
 .gantt-controls button {
+    width: auto;
     margin-left: 10px;
     padding: 10px 20px;
-    background-color: #4a69bd;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.gantt-controls button:hover {
-    background-color: #3b5998;
 }

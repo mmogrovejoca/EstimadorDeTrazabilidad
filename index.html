@@ -29,23 +29,59 @@
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
-            padding: 2rem;
         }
 
         .container {
-            max-width: 800px;
-            margin: 2rem auto;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 2rem;
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        nav h1 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .form-container, .result-container {
             background-color: var(--white-color);
+            padding: 2rem;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
         }
 
-        h1 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
+        .gantt-container {
+            margin-top: 2rem;
+            background-color: var(--white-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
 
         .form-group {
@@ -92,40 +128,31 @@
             box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
         }
 
-        #result-container {
-            margin-top: 3rem;
-            padding: 2rem;
-            background-color: #f9f9f9;
-            border-radius: var(--border-radius);
-            border: 1px solid #e0e0e0;
-        }
-
-        #result-container h2 {
+        .result-container h2 {
             color: var(--primary-color);
             margin-bottom: 1.5rem;
             border-bottom: 2px solid var(--primary-color);
             padding-bottom: 0.5rem;
         }
 
-        #result-container p {
+        .result-container p {
             margin-bottom: 1rem;
             font-size: 1.1rem;
         }
 
-        #result-container span {
+        .result-container span {
             font-weight: bold;
             color: var(--primary-color);
         }
 
         .gantt-controls {
             text-align: right;
+            margin-top: 1rem;
         }
 
         .gantt-controls button {
             width: auto;
             padding: 0.8rem 1.5rem;
-            margin-top: 1rem;
-            margin-left: 1rem;
             font-size: 1rem;
         }
 
@@ -136,46 +163,58 @@
     </style>
 </head>
 <body>
+    <nav>
+        <div class="container">
+            <div class="logo-placeholder"></div>
+            <h1>Estimador de Trazabilidad</h1>
+        </div>
+    </nav>
     <div class="container">
-        <h1>Estimador de Tiempos de Trazabilidad</h1>
-        <form id="estimation-form">
-            <div class="form-group">
-                <label for="script-count">Cantidad de Scripts:</label>
-                <input type="number" id="script-count" required>
+        <div class="main-container">
+            <div class="form-container">
+                <form id="estimation-form">
+                    <!-- Form fields -->
+                    <div class="form-group">
+                        <label for="script-count">Cantidad de Scripts:</label>
+                        <input type="number" id="script-count" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="min-lines">Longitud Mínima de Líneas:</label>
+                        <input type="number" id="min-lines" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="max-lines">Longitud Máxima de Líneas:</label>
+                        <input type="number" id="max-lines" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="person1-avg">Promedio de Avance Persona 1 (líneas/día):</label>
+                        <input type="number" id="person1-avg" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="person2-avg">Promedio de Avance Persona 2 (líneas/día, opcional):</label>
+                        <input type="number" id="person2-avg">
+                    </div>
+                    <div class="form-group">
+                        <label for="start-date">Fecha de Inicio:</label>
+                        <input type="date" id="start-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="due-date">Fecha de Cierre Estimada:</label>
+                        <input type="date" id="due-date" required>
+                    </div>
+                    <button type="submit">Calcular Estimación</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="min-lines">Longitud Mínima de Líneas:</label>
-                <input type="number" id="min-lines" required>
+            <div class="result-container">
+                <h2>Resultados</h2>
+                <p>Fecha de Estimación: <span id="estimation-date"></span></p>
+                <p>Fecha de Cierre Calculada: <span id="calculated-due-date"></span></p>
+                <p>Fecha de Cierre Recomendada: <span id="recommended-due-date"></span></p>
+                <p>Validación de Fecha de Cierre: <span id="due-date-validation"></span></p>
             </div>
-            <div class="form-group">
-                <label for="max-lines">Longitud Máxima de Líneas:</label>
-                <input type="number" id="max-lines" required>
-            </div>
-            <div class="form-group">
-                <label for="person1-avg">Promedio de Avance Persona 1 (líneas/día):</label>
-                <input type="number" id="person1-avg" required>
-            </div>
-            <div class="form-group">
-                <label for="person2-avg">Promedio de Avance Persona 2 (líneas/día, opcional):</label>
-                <input type="number" id="person2-avg">
-            </div>
-            <div class="form-group">
-                <label for="start-date">Fecha de Inicio:</label>
-                <input type="date" id="start-date" required>
-            </div>
-            <div class="form-group">
-                <label for="due-date">Fecha de Cierre Estimada:</label>
-                <input type="date" id="due-date" required>
-            </div>
-            <button type="submit">Calcular Estimación</button>
-        </form>
-        <div id="result-container">
-            <h2>Resultados</h2>
-            <p>Fecha de Estimación: <span id="estimation-date"></span></p>
-            <p>Fecha de Cierre Calculada: <span id="calculated-due-date"></span></p>
-            <p>Fecha de Cierre Recomendada: <span id="recommended-due-date"></span></p>
-            <p>Validación de Fecha de Cierre: <span id="due-date-validation"></span></p>
-            <div id="gantt-chart" style="width:100%; height:400px;"></div>
+        </div>
+        <div class="gantt-container">
+            <div id="gantt-chart" style="width:100%; height:500px;"></div>
             <div class="gantt-controls">
                 <button onclick="gantt.exportToPDF()">Exportar a PDF</button>
                 <button onclick="gantt.exportToExcel()">Exportar a Excel</button>

@@ -8,65 +8,46 @@
     <link rel="stylesheet" href="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Estimador de Trazabilidad</h1>
-            <div class="logo-placeholder"></div>
-        </div>
-    </header>
     <div class="container">
-        <div class="main-content">
-            <div class="form-container">
-                <form id="estimation-form">
-                    <!-- Form fields -->
-                    <div class="form-group">
-                        <label for="script-count">Cantidad de Scripts:</label>
-                        <input type="number" id="script-count" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="min-lines">Longitud Mínima de Líneas:</label>
-                        <input type="number" id="min-lines" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="max-lines">Longitud Máxima de Líneas:</label>
-                        <input type="number" id="max-lines" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="person1-avg">Promedio de Avance Persona 1 (líneas/día):</label>
-                        <input type="number" id="person1-avg" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="person2-avg">Promedio de Avance Persona 2 (líneas/día, opcional):</label>
-                        <input type="number" id="person2-avg">
-                    </div>
-                    <div class="form-group">
-                        <label for="start-date">Fecha de Inicio:</label>
-                        <input type="date" id="start-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="due-date">Fecha de Cierre Estimada:</label>
-                        <input type="date" id="due-date" required>
-                    </div>
-                    <button type="submit">Calcular Estimación</button>
-                </form>
+        <h1>Estimador de Tiempos de Trazabilidad</h1>
+        <form id="estimation-form">
+            <div class="form-group">
+                <label for="script-count">Cantidad de Scripts:</label>
+                <input type="number" id="script-count" required>
             </div>
-            <div class="result-container">
-                <h2>Resultados</h2>
-                <p>Total de Días de Trazabilidad: <span id="total-days"></span></p>
-                <p>Fecha de Estimación: <span id="estimation-date"></span></p>
-                <p>Fecha de Cierre Calculada: <span id="calculated-due-date"></span></p>
-                <p>Fecha de Cierre Recomendada: <span id="recommended-due-date"></span></p>
-                <p>Validación de Fecha de Cierre: <span id="due-date-validation"></span></p>
+            <div class="form-group">
+                <label for="min-lines">Longitud Mínima de Líneas:</label>
+                <input type="number" id="min-lines" required>
             </div>
-        </div>
-        <div class="gantt-section">
-            <div class="gantt-container">
-                <div id="gantt-chart" style="width:100%; height:100%;"></div>
+            <div class="form-group">
+                <label for="max-lines">Longitud Máxima de Líneas:</label>
+                <input type="number" id="max-lines" required>
             </div>
-            <div class="gantt-controls">
-                <button onclick="gantt.exportToPDF()">Exportar a PDF</button>
-                <button onclick="gantt.exportToExcel()">Exportar a Excel</button>
+            <div class="form-group">
+                <label for="person1-avg">Promedio de Avance Persona 1 (líneas/día):</label>
+                <input type="number" id="person1-avg" required>
             </div>
+            <div class="form-group">
+                <label for="person2-avg">Promedio de Avance Persona 2 (líneas/día, opcional):</label>
+                <input type="number" id="person2-avg">
+            </div>
+            <div class="form-group">
+                <label for="start-date">Fecha de Inicio:</label>
+                <input type="date" id="start-date" required>
+            </div>
+            <div class="form-group">
+                <label for="due-date">Fecha de Cierre Estimada:</label>
+                <input type="date" id="due-date" required>
+            </div>
+            <button type="submit">Calcular Estimación</button>
+        </form>
+        <div id="result-container">
+            <h2>Resultados</h2>
+            <p>Fecha de Estimación: <span id="estimation-date"></span></p>
+            <p>Fecha de Cierre Calculada: <span id="calculated-due-date"></span></p>
+            <p>Fecha de Cierre Recomendada: <span id="recommended-due-date"></span></p>
+            <p>Validación de Fecha de Cierre: <span id="due-date-validation"></span></p>
+            <button id="show-gantt">Ver Diagrama de Gantt</button>
         </div>
     </div>
     <script src="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>

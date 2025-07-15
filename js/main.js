@@ -57,10 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
             },
 
             createGanttChart: (calculatedEndDate) => {
-                gantt.config.scale_unit = "day";
-                gantt.config.date_scale = "%d %M";
-                gantt.init("gantt-chart");
-
                 const tasks = [];
                 let currentDate = new Date(model.startDate.getTime());
                 const daysRequired = controller.calculateDaysRequired();
@@ -80,10 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                gantt.parse({ data: tasks });
+                localStorage.setItem('ganttData', JSON.stringify({ data: tasks }));
             }
         };
 
         controller.updateView();
+    });
+
+    document.getElementById('show-gantt').addEventListener('click', () => {
+        window.open('gantt.html', '_blank');
     });
 });

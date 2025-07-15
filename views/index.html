@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimador de Tiempos de Trazabilidad</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt/dist/frappe-gantt.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Estimador de Tiempos de Trazabilidad</h1>
+        <form id="estimation-form">
+            <div class="form-group">
+                <label for="script-count">Cantidad de Scripts:</label>
+                <input type="number" id="script-count" required>
+            </div>
+            <div class="form-group">
+                <label for="min-lines">Longitud Mínima de Líneas:</label>
+                <input type="number" id="min-lines" required>
+            </div>
+            <div class="form-group">
+                <label for="max-lines">Longitud Máxima de Líneas:</label>
+                <input type="number" id="max-lines" required>
+            </div>
+            <div class="form-group">
+                <label for="person1-avg">Promedio de Avance Persona 1 (líneas/día):</label>
+                <input type="number" id="person1-avg" required>
+            </div>
+            <div class="form-group">
+                <label for="person2-avg">Promedio de Avance Persona 2 (líneas/día, opcional):</label>
+                <input type="number" id="person2-avg">
+            </div>
+            <div class="form-group">
+                <label for="start-date">Fecha de Inicio:</label>
+                <input type="date" id="start-date" required>
+            </div>
+            <div class="form-group">
+                <label for="due-date">Fecha de Cierre Estimada:</label>
+                <input type="date" id="due-date" required>
+            </div>
+            <button type="submit">Calcular Estimación</button>
+        </form>
+        <div id="result-container">
+            <h2>Resultados</h2>
+            <p>Fecha de Estimación: <span id="estimation-date"></span></p>
+            <p>Fecha de Cierre Calculada: <span id="calculated-due-date"></span></p>
+            <p>Fecha de Cierre Recomendada: <span id="recommended-due-date"></span></p>
+            <p>Validación de Fecha de Cierre: <span id="due-date-validation"></span></p>
+            <div id="gantt-chart"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/frappe-gantt/dist/frappe-gantt.min.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

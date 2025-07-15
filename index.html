@@ -151,7 +151,21 @@
             margin-top: 1rem;
         }
 
-        .gantt-controls button {
+        .gantt-controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        #export-format {
+            margin-right: 1rem;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: var(--white-color);
+        }
+
+        #export-btn {
             width: auto;
             padding: 0.8rem 1.5rem;
             font-size: 1rem;
@@ -217,8 +231,11 @@
         <div class="gantt-container">
             <div id="gantt-chart" style="width:100%; height:500px;"></div>
             <div class="gantt-controls">
-                <button onclick="gantt.exportToPDF()">Exportar a PDF</button>
-                <button onclick="gantt.exportToExcel()">Exportar a Excel</button>
+                <select id="export-format">
+                    <option value="pdf">Exportar a PDF</option>
+                    <option value="excel">Exportar a Excel</option>
+                </select>
+                <button id="export-btn">Exportar</button>
             </div>
         </div>
     </div>
@@ -227,6 +244,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('estimation-form');
+            const exportBtn = document.getElementById('export-btn');
+            const exportFormat = document.getElementById('export-format');
 
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
@@ -310,6 +329,15 @@
                 };
 
                 controller.updateView();
+            });
+
+            exportBtn.addEventListener('click', () => {
+                const format = exportFormat.value;
+                if (format === 'pdf') {
+                    gantt.exportToPDF();
+                } else if (format === 'excel') {
+                    gantt.exportToExcel();
+                }
             });
         });
     </script>

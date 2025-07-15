@@ -55,19 +55,30 @@ document.addEventListener('DOMContentLoaded', () => {
             },
 
             createGanttChart: (calculatedEndDate) => {
+                gantt.config.scale_unit = "day";
+                gantt.config.date_scale = "%d %M";
                 gantt.init("gantt-chart");
-                gantt.parse({
-                    data: [
-                        {
-                            id: 1,
-                            text: "Desarrollo",
-                            start_date: model.startDate.toISOString().split('T')[0],
-                            end_date: calculatedEndDate.toISOString().split('T')[0],
-                            progress: 0,
-                            open: true
-                        }
-                    ]
-                });
+
+                const tasks = [];
+                let currentDate = new Date(model.startDate.getTime());
+                const daysRequired = controller.calculateDaysRequired();
+
+                for (let i = 0; i < daysRequired; i++) {
+                    tasks.push({
+                        id: i + 1,
+                        text: `Día ${i + 1}`,
+                        start_date: new Date(currentDate),
+                        duration: 1,
+                        progress: 1
+                    });
+
+                    currentDate.setDate(currentDate.getDate() + 1);
+                    while (currentDate.getDay() === 0 || currentDate.getDay() === 6) {
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                }
+
+                gantt.parse({ data: tasks });
             }
         };
 

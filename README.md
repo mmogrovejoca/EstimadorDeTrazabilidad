@@ -27,8 +27,8 @@ Esta es una herramienta simple para estimar el tiempo requerido para completar u
     *   **Fecha de Cierre Estimada:** La fecha en que te gustaría que terminara el proyecto.
 3.  **Haz clic en "Calcular Estimación".**
 4.  **Revisa los resultados:**
-    *   La aplicación mostrará la fecha de cierre calculada, una validación de la fecha de cierre estimada y una fecha de cierre recomendada.
-    *   Debajo de los resultados, verás un diagrama de Gantt que visualiza el cronograma del proyecto, con una tarea para cada día de trabajo.
+    *   La aplicación mostrará el total de días de trazabilidad, la fecha de cierre calculada, una validación de la fecha de cierre estimada y una fecha de cierre recomendada.
+    *   En una sección separada, verás un diagrama de Gantt que visualiza el cronograma del proyecto, con una tarea para cada día de trabajo.
 5.  **Exporta el diagrama de Gantt:**
     *   Puedes exportar el diagrama de Gantt a PDF o Excel haciendo clic en los botones correspondientes.
 

@@ -45,7 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
             updateView: () => {
                 const calculatedEndDate = controller.calculateEndDate();
                 const validation = controller.validateDueDate(calculatedEndDate);
+                const daysRequired = controller.calculateDaysRequired();
 
+                document.getElementById('total-days').textContent = daysRequired;
                 document.getElementById('estimation-date').textContent = new Date().toLocaleDateString();
                 document.getElementById('calculated-due-date').textContent = calculatedEndDate.toLocaleDateString();
                 document.getElementById('recommended-due-date').textContent = calculatedEndDate.toLocaleDateString();
